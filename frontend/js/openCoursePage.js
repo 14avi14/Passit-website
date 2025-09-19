@@ -225,7 +225,7 @@ window.addEventListener("visibilitychange", (e) => {
 			localStorage.removeItem("user_info");
             localStorage.removeItem("passit-openCourse");
 			console.log("Logged out.");
-			window.location.replace("./login_page.html"); // Takes back to login page
+			window.location.replace("../index.html"); // Takes back to login page
 		}, 1000*60*5); // Logout after five minutes of not being on page
 	if (document.visibilityState !== "hidden") {
         console.log("Logout timer cleared.");

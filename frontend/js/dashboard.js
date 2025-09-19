@@ -32,7 +32,7 @@ async function displayAllCourseCards(USER_INFO) {
 window.addEventListener("visibilitychange", (e) => {
 	const timeout = setTimeout(() => {
 			localStorage.removeItem("user_info");
-			window.location.replace("./login_page.html"); // Takes back to login page
+			window.location.replace("../index.html"); // Takes back to login page
 		}, 1000*60*5); // Logout after five minutes not on page
 	if (document.visibilityState !== "hidden") {
 		clearTimeout(timeout);
