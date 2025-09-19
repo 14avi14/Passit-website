@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="../js/dashboard.js" defer></script>
+	<title>Dashboard</title>
+	<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+		:root {
+
+			--border-color-1: grey;
+			--border-radius-1: 0.3rem;
+			--border-radius-2: 0.5rem;
+
+			--btn-background-color: transparent;
+			--btn-font-color: whitesmoke;
+
+			--lin-grad-1a: rgba(100, 100, 100, 0.5);
+			--lin-grad-1b: rgba(255, 255, 255, 0.5);
+		}
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 1rem "Roboto Mono", monospace;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+			grid-template-columns: 1fr 8fr;
+            align-items: center;
+        }
+
+		ul {
+			list-style: none;
+		}
+
+		.mainAsideContainer {
+			width: 100%;
+			height: 100%;
+			position: relative;
+		}
+
+		.mainAside {
+			position: fixed;
+			top: 50%;
+			transform: translate(0, -50%);
+			height: 80%;
+			width: 12%;
+			margin-left: 0.25rem;
+			padding: 0.1rem;
+			padding-block: 3rem;
+			border: 3px outset var(--border-color-1);
+			border-radius: var(--border-radius-2);
+
+			display: flex;
+			flex-flow: column nowrap;
+			gap: 1rem;
+
+			background-color: black;
+			color: white;
+
+			text-align: right;
+		}
+
+		.link-1 {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+
+			color: whitesmoke;
+			font-weight: bold;
+			font-size: 1rem;
+			text-decoration: none;
+
+			padding: 0.3rem;
+			background: transparent;
+			border-radius: var(--border-radius-1);
+
+		}
+
+		.lin-grad-hover:hover {
+			background: linear-gradient(135deg, var(--lin-grad-1a), var(--lin-grad-1b));
+		}
+
+		.rise-hover {
+			transition: transform 0.3s;
+		}
+		.rise-hover:hover {
+			transform: translateY(-2px);	
+		}
+
+		.button-1 {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+
+			color: var(--btn-font-color);
+			font-weight: bold;
+			font-size: 1rem;
+			text-decoration: none;
+
+			padding: 0.3rem;
+			background-color: var(--btn-background-color);
+			border-radius: var(--border-radius-1);
+
+			border: 3px outset var(--border-color-1);
+		}
+
+		.button-2 {
+			--btn-background-color: black;
+		}
+
+		.subheader-1 {
+			color: black;
+			font-weight: bold;
+			font-size: 2rem;
+		}
+
+		.form-1 {
+			display: flex;
+			flex-flow: column nowrap;
+		}
+
+		.error {
+			color: red;
+			font-size: 0.8rem;
+		}
+
+		.error--hidden {
+			opacity: 0;
+		}
+
+		.dialog {
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			border: none;
+			border-radius: var(--border-radius-2);
+			padding: 2rem;
+		}
+
+		.formSection {
+			display: flex;
+			flex-flow: column nowrap;
+			margin-block: 0.25rem;
+		}
+
+		.text-input {
+			padding: 0.2rem;
+			font: 0.8rem "Roboto Mono", monospace;
+			border: 1px solid black;
+			border-radius: var(--border-radius-1);
+		}
+		.checkbox-input {
+			width: 1rem;
+			height: 1rem;
+		}
+
+		.checkbox-label {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		main {
+			width: 100%;
+			height: 100%;
+			padding: 2rem;
+			display: grid;
+			align-content: start;
+			gap: 2rem;
+		}
+
+		.header-cont-1 {
+			text-align: center;
+		}
+
+		.highlight {
+			color: greenyellow;
+			text-decoration: underline;
+		}
+
+		.cardContainer {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
+			gap: 0.5rem;
+		}
+		.card {
+			box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.5);
+			border-radius: var(--border-radius-2);
+
+			padding: 1rem;
+			width: 100%;
+		}
+
+		.cardHeader {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.card img {
+			width: 100%;
+			height: auto;
+			border-radius: inherit;
+		}
+
+		#errorPopDown {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -100%);
+            padding: 1rem;
+            border-radius: 2rem;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: red;
+            color: white;
+            font-weight: bold;
+        }
+
+        .slideDown {
+            animation: slidedown 1s forwards;
+        }
+
+        @keyframes slidedown {
+            0% {
+                transform: translate(-50%, -100%);
+            }
+            100% {
+                transform: translate(-50%, 10%);
+            }
+        }
+
+		.hidden {
+			display: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="errorPopDown"></div>
+	<div class="mainAsideContainer">
+		<aside class="mainAside">
+			<ul class="list-spaced">
+				<li><a href="#" class="link-1 lin-grad-hover">📖Courses</a></li>
+				<li><a href="#" class="link-1 lin-grad-hover">🗓️Calender</a></li>
+			</ul>
+			<button id="addCourseBtn" class="button-1 lin-grad-hover">➕Add Course</button>
+		</aside>
+	</div>
+    <main>
+    	<header class="header-cont-1">
+    		<h1 class="title">Pass<span class="highlight">it</span></h1>
+    	</header>
+
+    	<section class="cardContainer">
+    	</section>
+    </main>
+
+    <dialog id="addCourseDialog" class="dialog">
+    	<h2 class="subheader-1">New Course</h2>
+    	<form id="addCourseForm" class="form-1" novalidate>
+    		<section class="formSection">
+				<label>
+					Course Name:
+				</label>
+				<input type="text" name="course_name" class="text-input" autocomplete="off">
+    			<span id="course_name-error" class="error error--hidden">Please add a course proper course name.</span>
+    		</section>
+    		<section class="formSection">
+				<label>
+					Length in Weeks:
+				</label> 
+				<input type="number" name="weeks" min="1" max="20" step="1" placeholder="Must be between 1 and 20 weeks" class="text-input" autocomplete="off">
+    			<span id="weeks-error" class="error error--hidden">Not within the proper range.</span>
+    		</section>
+    		<button type="submit" class="button-1 button-2 rise-hover">GENERATE</button>
+    	</form>
+    </dialog>
+</body>
+</html>

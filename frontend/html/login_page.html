@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font: 1rem "Roboto Mono", monospace;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main {
+            box-shadow: 0 0 1rem #ddd;
+            border-radius: 1rem;
+            display: grid;
+        }
+        form {
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .text-input {
+            padding: 0.5rem;
+            padding-inline: 1rem;
+            width: 100%;
+            border-radius: 1rem;
+            border: 1px solid grey;
+            font-family: "Roboto Mono", monospace;
+        }
+
+        .text-input::placeholder {
+            font-family: "Roboto Mono", monospace;
+        }
+
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .error {
+            display: block;
+            font-size: 0.75rem;
+            color: red;
+        }
+
+        .label-input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button {
+            font-family: "Roboto Mono", monospace;
+            background-color: cornflowerblue;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            border: none;
+        }
+        #errorPopDown {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -100%);
+            padding: 1rem;
+            border-radius: 2rem;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: red;
+            color: white;
+            font-weight: bold;
+        }
+
+        .slideDown {
+            animation: slidedown 1s forwards;
+        }
+
+        @keyframes slidedown {
+            0% {
+                transform: translate(-50%, -100%);
+            }
+            100% {
+                transform: translate(-50%, 10%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="errorPopDown"></div>
+    <main>
+        <form id="form" novalidate>
+            <h1>Login</h1>
+            <section>
+                <input type="text" name="username" placeholder="username" class="text-input" autocomplete="off">
+                <span id="username-error" class="error"></span>
+            </section>
+            <section>
+                <input type="password" name="password" placeholder="password" class="text-input">
+                <span id="password-error" class="error"></span>
+            </section>
+            <section>
+                <label class="label-input-container">
+                    <input type="checkbox" name="do-login"> 
+                    Already have an account
+                </label>
+            </section>
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+
+    <script>
+        const form = document.getElementById("form");
+        const errorEl = document.getElementById("errorPopDown");
+        errorEl.onclick = () => {
+            errorEl.classList.remove("slideDown");
+        }
+        
+        const verifications = {
+            "username": (name) => !name ? "Please add a valid username.": false,
+            "password": (pass) => !pass ? "Please add a valid password.": false,
+        }
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const formdata = new FormData(form);
+            const user_data = Object.fromEntries(formdata);
+            let errors = false;
+            for (const [key, val] of formdata) {
+                if (key in verifications) {
+                    const error = verifications[key](val);
+                    if (error) {
+                        errors = true;
+                        document.getElementById(key+"-error").textContent = error;
+                    } else {
+                        document.getElementById(key+"-error").textContent = "";
+                    }
+                }
+            }
+
+            if (!errors) {
+                errorEl.classList.remove("slideDown");
+                const login_user = user_data["do-login"];
+                let endpoint = `http://127.0.0.1:8000/accounts/create_account`;
+                if (login_user) {
+                    endpoint = `http://127.0.0.1:8000/accounts/login`;
+                }
+                const request_body = {username: user_data["username"], password: user_data["password"]};
+                const response = fetch(endpoint, 
+                {method: "POST", 
+                 headers: {
+                    "Content-Type": "application/json"
+                 },
+                 body: JSON.stringify(request_body)})
+                .then(response => {
+                    if (response.ok) {
+                        
+                        response.json().then(res_data => {
+                            const user_info = {
+                                "username": user_data["username"],
+                                "login-key": res_data
+                            };
+                            localStorage.setItem("user_info", JSON.stringify(user_info));
+                            
+                        }).then(() => {
+                            window.location.replace("./dashboard.html");
+                        });
+                    } else {
+                        response.text().then(res => {
+                            errorEl.innerHTML = JSON.parse(res).detail;
+                            errorEl.classList.add("slideDown");
+                        });
+                    }
+                }).catch(e => {
+                    errorEl.innerHTML = "Internal Server Error.";
+                    errorEl.classList.add("slideDown");
+                });
+            }
+        });
+        // 
+    </script>
+</body>
+</html>

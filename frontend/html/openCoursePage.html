@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="../js/openCoursePage.js" defer></script>
+    <title id="pageTitle">Course</title>
+
+	<style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+		:root {
+
+			--border-color-1: grey;
+			--border-radius-1: 0.3rem;
+			--border-radius-2: 0.5rem;
+
+			--btn-background-color: transparent;
+			--btn-font-color: whitesmoke;
+
+			--lin-grad-1a: rgba(100, 100, 100, 0.5);
+			--lin-grad-1b: rgba(255, 255, 255, 0.5);
+		}
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 1rem "Roboto Mono", monospace;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+			grid-template-columns: 1fr 7fr;
+            align-items: start;
+			background: radial-gradient(rgba(70, 130, 180, 0.3), rgba(255, 182, 193, 0.5));
+        }
+
+		ul {
+			list-style: none;
+		}
+
+		.mainAsideContainer {
+			width: 100%;
+			height: 100%;
+			position: relative;
+		}
+
+		.mainAside {
+			position: fixed;
+			top: 50%;
+			left: 5%;
+			transform: translate(0, -50%);
+			height: 80%;
+			width: 12%;
+			padding: 0.1rem;
+			padding-block: 3rem;
+			border: 3px outset var(--border-color-1);
+			border-radius: var(--border-radius-2);
+
+			display: flex;
+			flex-flow: column nowrap;
+			gap: 1rem;
+
+			background-color: black;
+			color: white;
+
+			text-align: right;
+		}
+
+		.link-1 {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+
+			color: whitesmoke;
+			font-weight: bold;
+			font-size: 1rem;
+			text-decoration: none;
+
+			padding: 0.3rem;
+			background: transparent;
+			border-radius: var(--border-radius-1);
+
+		}
+
+		.highlight {
+			color: greenyellow;
+			text-decoration: underline;
+		}
+
+		.highlight-dark {
+			color: blueviolet;
+		}
+
+		.lin-grad-hover:hover {
+			background: linear-gradient(135deg, var(--lin-grad-1a), var(--lin-grad-1b));
+		}
+
+
+		.rise-hover:hover {
+			transition: all 0.5s;
+			transform: translateY(-2px);	
+		}
+
+		.shadow-hover:hover {
+			transition: box-shadow 0.5s;
+			box-shadow: 0 0 1rem rgba(100, 200, 100, 0.5);
+		}
+
+		.button-1 {
+			display: flex;
+			justify-content: center;
+
+			color: var(--btn-font-color);
+			font-weight: bold;
+			font-size: 1rem;
+			text-decoration: none;
+
+			padding: 0.3rem;
+			background-color: var(--btn-background-color);
+			border-radius: var(--border-radius-1);
+
+			border: 3px outset var(--border-color-1);
+		}
+
+		.button-2 {
+			--btn-background-color: black;
+		}
+
+
+		.error {
+			color: red;
+			font-size: 0.8rem;
+		}
+
+		.error--hidden {
+			opacity: 0;
+		}
+
+		.ulShow {
+			list-style-type: disc;
+			list-style-position: inside;
+		}
+
+		.ulIndent {
+			padding-left: 2rem;
+		}
+
+		.spaced-1 {
+			margin: 1rem;
+		}
+
+		.line-spaced-1 {
+			line-height: 1.5rem;
+		}
+		.padded-1 {
+			padding: 1rem;
+		}
+
+		.outlined {
+			border: 2px solid var(--border-color-1);
+			border-radius: var(--border-radius-1);
+		}
+
+		main {
+			height: 100%;
+			padding: 2rem;
+			padding-block: 4rem;
+			display: grid;
+			gap: 2rem;
+		}
+
+		.main-section {
+			width: 80%;
+			display: flex;
+			flex-flow: column nowrap;
+			align-items: center;
+			gap: 2rem;
+		}
+
+		.main-img-container {
+			width: 80%;
+			height: 15rem;
+			border-radius: var(--border-radius-2);
+			background-image: url("https://media.istockphoto.com/id/482773600/vector/school-seamless-pattern.jpg?s=612x612&w=0&k=20&c=F3MngQj1lbXMPwD554VrzO_ceSRPvM5qr4KafNps_9U=");
+			background-size: cover;
+		}
+
+
+		.main-section-section {
+			display: flex;
+			flex-flow: column nowrap;
+			align-items: center;
+			width: 100%;
+			gap: 1rem;
+		}
+
+		.main-summary {
+			width: 80%;
+		}
+
+		.announcements-sec {
+			width: 80%;
+			padding: 1rem;
+			border: 2px solid black;
+			border-radius: var(--border-radius-2);
+			background-color: black;
+			color: whitesmoke;
+		}
+		.announcement {
+			padding: 0.75rem;
+			background-color: rgba(100, 5, 200, 0.5);
+			margin: 0.25rem;
+			border-radius: var(--border-radius-2);
+		}
+
+		.announcement:hover {
+			color: hotpink;
+		}
+
+		dialog {
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			border: none;
+			border-radius: var(--border-radius-2);
+			padding: 1.5rem;
+		}
+		
+		.dialogHeader {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 1.75rem;
+			margin-bottom: 1rem;
+		}
+
+		.accordionBtn {
+			width: 100%;
+			display: flex;
+			justify-content: flex-start;
+			margin-block: 0.5rem;
+			padding: 1rem;
+		}
+
+		.accordionSec {
+			height: 0;
+			transform: scaleY(0);
+			opacity: 0;
+		}
+
+		.accordionSec--open {
+			height: 100%;
+			opacity: 1;
+			transform: scaleY(1);
+		}
+
+		.accordionBtnSmall {
+			padding: 0.25rem;
+		}
+
+
+		#errorPopDown {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, -100%);
+            padding: 1rem;
+            border-radius: 2rem;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: red;
+            color: white;
+            font-weight: bold;
+        }
+
+        .slideDown {
+            animation: slidedown 1s forwards;
+        }
+
+        @keyframes slidedown {
+            0% {
+                transform: translate(-50%, -100%);
+            }
+            100% {
+                transform: translate(-50%, 10%);
+            }
+        }
+
+		.hidden {
+			display: none;
+		}
+
+	</style>
+</head>
+<body>
+
+    <div id="errorPopDown"></div>
+	<div class="mainAsideContainer">
+		<aside class="mainAside">
+			<ul class="list-spaced">
+				<li><a href="#" class="link-1 lin-grad-hover" id="scheduleBtn">🗓️Schedule</a></li>
+				<li><a href="#" class="link-1 lin-grad-hover" id="lessonsBtn">🏫Lessons</a></li>
+				<li><a href="#" class="link-1 lin-grad-hover" id="practiceBtn">✍️Practice</a></li>
+				<li><a href="#" class="link-1 lin-grad-hover" id="resourcesBtn">📚Resources</a></li>	
+				<li><a href="./dashboard.html" class="link-1 lin-grad-hover">⬅️All Courses</a></li>
+			</ul>
+		</aside>
+	</div>
+
+    <main>
+        <section class="main-section">
+			<div class="main-section-section">
+				<h1 class="main-header" id="courseHeader">Course Header</h1>
+				<strong>Welcome to <span class="highlight highlight-dark" id="welcomeMsgCourseName">AP HIstory</span>, we're glad you're here!</strong>
+			</div>
+
+			<div class="main-section-section main-summary">
+				<p id="courseSummary">Hello. Lorem ipsum dolor sit amet consectetur adipisicing elit. Et laudantium aliquam aperiam nihil, consequuntur culpa architecto consectetur cupiditate exercitationem officia dolorem unde, totam accusantium? Doloribus minima voluptas cum soluta nisi.</p>
+			</div>
+
+			<section class="main-section-section announcements-sec">
+				<h2>Announcements</h2>
+				<section>
+					<article class="announcement" id="courseTopicAnnoucement">Week 3: Coming up, Limits and Derivatives!</article>
+					<article class="announcement" id="courseAssignmentReminder">Week 3: Don't forget to review limits(Mini quiz this Friday!)</article>
+				</section>
+			</section>
+
+		</section>
+    </main>
+
+    
+</body>
+</html>
+
+<!-- 
+TODO
+Areas for improvement to make the page look more complete:
+Welcome and Introduction: Add a clear welcome message and a brief introduction to the course. 
+Course Overview/Description: Provide a concise summary of what the course is about, its objectives, and what students can expect to learn. 
+Getting Started Information: Guide students on how to begin the course, perhaps by directing them to the "Schedule" or "Resources" section. 
+Instructor Information: Include a dedicated section with details about the instructor, such as a photo, brief bio, and office hours or preferred communication methods. 
+Visual Enhancements: While the current header image is decorative, consider incorporating more visually engaging elements like a course-specific banner or imagery that aligns with the subject matter to make it more inviting. 
+Announcements/Updates: Add a section for recent announcements or important updates to keep students informed. 
+Accessibility Information: Ensure the design considers accessibility guidelines for all learners. 
+Consistent Navigation: While "Courses" and "Calendar" are present, ensure all key navigation elements are easily accessible and consistently placed.  -->
