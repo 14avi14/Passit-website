@@ -7,7 +7,7 @@ from mongodb_client import USERS_COLLECTION
 app = FastAPI()
 
 origins = [
-    "http://127.0.0.1:5500",
+    "https://passit-67b2.onrender.com/",
 ] 
 
 app.add_middleware(

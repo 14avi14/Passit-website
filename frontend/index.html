@@ -161,9 +161,9 @@
             if (!errors) {
                 errorEl.classList.remove("slideDown");
                 const login_user = user_data["do-login"];
-                let endpoint = `http://127.0.0.1:8000/accounts/create_account`;
+                let endpoint = `https://passit-website.onrender.com/accounts/create_account`;
                 if (login_user) {
-                    endpoint = `http://127.0.0.1:8000/accounts/login`;
+                    endpoint = `https://passit-website.onrender.com/accounts/login`;
                 }
                 const request_body = {username: user_data["username"], password: user_data["password"]};
                 const response = fetch(endpoint, 
