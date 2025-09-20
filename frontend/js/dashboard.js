@@ -1,6 +1,6 @@
 // Load in the user 
 const MAIN_URL = "https://passit-website.onrender.com";
-let USER_INFO = localStorage.getItem("user_info");
+let USER_INFO = localStorage.getItem("passit-user_info");
 if (!USER_INFO) {
 	document.body.querySelectorAll(":not(#errorPopDown)").forEach(el => {
 		el.innerHTML = "";

@@ -8,7 +8,7 @@ window.addEventListener("load", (e) => {loadMain()});
 
 function loadMain() {
     const courseJSONString = localStorage.getItem("passit-openCourse");
-    const USER_INFO_STR = localStorage.getItem("user_info");
+    const USER_INFO_STR = localStorage.getItem("passit-user_info");
     if (!courseJSONString) {
         mainErrorToast.textContent = "There was an error loading the content. Please try returning to the dashboard."
         mainErrorToast.classList.add("slideDown");
@@ -222,7 +222,7 @@ function loadMain() {
 window.addEventListener("visibilitychange", (e) => {
     console.log("Logout timer set.")
 	const timeout = setTimeout(() => {
-			localStorage.removeItem("user_info");
+			localStorage.removeItem("passit-user_info");
             localStorage.removeItem("passit-openCourse");
 			console.log("Logged out.");
 			window.location.replace("../index.html"); // Takes back to login page
