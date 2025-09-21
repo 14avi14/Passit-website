@@ -89,6 +89,11 @@
 			background: linear-gradient(135deg, var(--lin-grad-1a), var(--lin-grad-1b));
 		}
 
+		.lin-grad-hover-danger {
+			--lin-grad-1a: red;
+			--lin-grad-1b: orange;
+		}
+
 		.rise-hover {
 			transition: transform 0.3s;
 		}
@@ -212,6 +217,40 @@
 			border-radius: inherit;
 		}
 
+        .loading-screen {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(150, 150, 150, 0.5);
+        }
+        .loading-screen-hidden {
+            display: none;
+        }
+
+        .loading-circle {
+            width: 4rem;
+            height: 4rem;
+            background-color: transparent;
+            border: 5px solid rgba(150, 150, 200, 0.7);
+            border-top: 5px solid lightgreen;
+            border-radius: 50%;
+            animation: infinite-spin 1.3s infinite;
+        }
+
+        @keyframes infinite-spin {
+            0% {
+                rotate: 0deg;
+            }
+            100% {
+                rotate: 360deg;
+            }
+        }
+
 		#errorPopDown {
             position: absolute;
             left: 50%;
@@ -248,6 +287,9 @@
 	</style>
 </head>
 <body>
+    <div class="loading-screen loading-screen-hidden">
+        <div class="loading-circle"></div>
+    </div>
 	<div id="errorPopDown"></div>
 	<div class="mainAsideContainer">
 		<aside class="mainAside">
@@ -285,6 +327,7 @@
     			<span id="weeks-error" class="error error--hidden">Not within the proper range.</span>
     		</section>
     		<button type="submit" class="button-1 button-2 rise-hover">GENERATE</button>
+			<button type="button" class="button-1 button-2 lin-grad-hover lin-grad-hover-danger" id="cancelCourseGenerationBtn">CANCEL</button>
     	</form>
     </dialog>
 </body>

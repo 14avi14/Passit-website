@@ -23,6 +23,40 @@
             align-items: center;
         }
 
+        .loading-screen {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(150, 150, 150, 0.5);
+        }
+        .loading-screen-hidden {
+            display: none;
+        }
+
+        .loading-circle {
+            width: 4rem;
+            height: 4rem;
+            background-color: transparent;
+            border: 5px solid rgba(150, 150, 200, 0.7);
+            border-top: 5px solid lightgreen;
+            border-radius: 50%;
+            animation: infinite-spin 1.3s infinite;
+        }
+
+        @keyframes infinite-spin {
+            0% {
+                rotate: 0deg;
+            }
+            100% {
+                rotate: 360deg;
+            }
+        }
+
         main {
             box-shadow: 0 0 1rem #ddd;
             border-radius: 1rem;
@@ -108,6 +142,9 @@
     </style>
 </head>
 <body>
+    <div class="loading-screen loading-screen-hidden">
+        <div class="loading-circle"></div>
+    </div>
     <div id="errorPopDown"></div>
     <main>
         <form id="form" novalidate>
@@ -131,6 +168,7 @@
     </main>
 
     <script>
+        const MAIN_URL = "https://passit-website.onrender.com";
         const form = document.getElementById("form");
         const errorEl = document.getElementById("errorPopDown");
         errorEl.onclick = () => {
@@ -161,11 +199,14 @@
             if (!errors) {
                 errorEl.classList.remove("slideDown");
                 const login_user = user_data["do-login"];
-                let endpoint = `https://passit-website.onrender.com/accounts/create_account`;
+                let endpoint = `${MAIN_URL}/accounts/create_account`;
                 if (login_user) {
-                    endpoint = `https://passit-website.onrender.com/accounts/login`;
+                    endpoint = `${MAIN_URL}/accounts/login`;
                 }
+                user_data["username"] = user_data["username"].trim();
                 const request_body = {username: user_data["username"], password: user_data["password"]};
+
+                document.querySelector(".loading-screen").classList.remove("loading-screen-hidden"); // Start loading animation
                 const response = fetch(endpoint, 
                 {method: "POST", 
                  headers: {
@@ -189,9 +230,11 @@
                         response.text().then(res => {
                             errorEl.innerHTML = JSON.parse(res).detail;
                             errorEl.classList.add("slideDown");
+                            document.querySelector(".loading-screen").classList.add("loading-screen-hidden"); // End loading animation
                         });
                     }
                 }).catch(e => {
+                    document.querySelector(".loading-screen").classList.add("loading-screen-hidden"); // End loading animation
                     errorEl.innerHTML = "Internal Server Error.";
                     errorEl.classList.add("slideDown");
                 });

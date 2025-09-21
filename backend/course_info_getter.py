@@ -101,3 +101,16 @@ def get_course_prep_info(*,
 		course_name = chat_content_json["course_name"]
 		connection.app.database.update_one({"username": username}, {"$set": {"courses_data": user["courses_data"]}})
 	return user["courses_data"][course_name]
+
+@router.delete("/courses/delete_course")
+def get_course_prep_info(*,
+	course_name: str,
+	username: str,
+	login_key: Annotated[str | None, Header()] = None,
+	connection: HTTPConnection):
+	
+	user = verify_user(username, login_key, connection)
+	if course_name not in user["courses_data"]:
+		raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"`{course_name}` does not exist.")
+	
+	connection.app.database.update_one({"username": username}, {"$unset": {f"courses_data.{course_name}": ""}})
