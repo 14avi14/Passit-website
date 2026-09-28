@@ -6,7 +6,7 @@ import bcrypt
 import random
 import json
 
-from cerebras_client import get_study_info
+from llm_client import get_study_info
 
 router = APIRouter()
 
@@ -94,9 +94,8 @@ def get_course_prep_info(*,
 	
 	user = verify_user(username, login_key, connection)
 	if course_name not in user["courses_data"]:
-		response = get_study_info(course_name, weeks, paid=False)
-		chat_content = response.choices[0].message.content
-		chat_content_json = json.loads(chat_content)
+		text = get_study_info(course_name, weeks, paid=False)
+		chat_content_json = json.loads(text)
 		user["courses_data"][chat_content_json["course_name"]] = chat_content_json
 		course_name = chat_content_json["course_name"]
 		connection.app.database.update_one({"username": username}, {"$set": {"courses_data": user["courses_data"]}})
