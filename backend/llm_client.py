@@ -44,7 +44,12 @@ FINAL_OUTPUT_SCHEMA = {
                         "additionalProperties": False
                     }
                 },
-                "resources": {"type": "string"}
+                "resources": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
             },
             "required": ["course_name", "summary", "current_week", "schedule", "resources"],
             "additionalProperties": False
